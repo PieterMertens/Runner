@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour {
 
     private CharacterController controller;
     private Vector3 moveVector;
@@ -35,4 +35,9 @@ public class playerMovement : MonoBehaviour {
 
         controller.Move(moveVector * Time.deltaTime);
 	}
+
+    public void setSpeed(float multiplier) {
+        speed = speed * multiplier;
+    }
+
 }

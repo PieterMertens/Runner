@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cameraMovement : MonoBehaviour {
+public class CameraMovement : MonoBehaviour {
 
     private Transform lookAt;
     private Vector3 startOffset;
@@ -33,6 +33,7 @@ public class cameraMovement : MonoBehaviour {
         //Y
         moveVector.y = Mathf.Clamp(moveVector.y,-4,10);
 
+        //TODO camera laten draaien in begin (voorkant zien met gezicht)
         /*
         if (transition > 1f) {
             transform.position = moveVector;
