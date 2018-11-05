@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour {
     private CharacterController controller;
     private Vector3 moveVector;
 
+
     public float speed = 3f;
 
     private float gravity = -10f;
@@ -19,12 +20,26 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        Swipe dir = SwipeManager.swipeDirection;
         moveVector = Vector3.zero;
 
         //X
+        if (dir == Swipe.Right) {
+            moveVector.x = 1;
+        } else if (dir == Swipe.Left){
+            moveVector.x = -1;
+        }
         moveVector.x = Input.GetAxisRaw("Horizontal");
 
+
         //Y
+        if (dir == Swipe.Up || dir == Swipe.Tap || Input.GetAxisRaw("Vertical") == 1)
+        {
+            print("--- Input.GetAxisRaw()" + Input.GetAxisRaw("Vertical").ToString());
+            verticalVelocity = 7f;
+        }
+       
+
         if (!controller.isGrounded) {
             verticalVelocity += gravity * Time.deltaTime;
         }

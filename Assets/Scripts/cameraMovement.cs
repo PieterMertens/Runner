@@ -5,20 +5,20 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour {
 
     private Transform lookAt;
-    private Vector3 startOffset;
+    //private Vector3 startOffset;
     private Vector3 moveVector;
 
-    private float transition = 0.0f;
-    private float animationDuration = 2.0f;
-    private Quaternion targetRotation = Quaternion.Euler(0,0,0);
+    //private float transition = 0.0f;
+    //private float animationDuration = 2.0f;
+    //private Quaternion targetRotation = Quaternion.Euler(0,0,0);
     private Vector3 cameraOffset = new Vector3(0,3,-5);
 
-    private float targetDistance = 5f;
+    //private float targetDistance = 5f;
 
 	// Use this for initialization
 	void Start () {
         lookAt = GameObject.FindGameObjectWithTag("Player").transform;
-        startOffset = transform.position - lookAt.position;
+        //startOffset = transform.position - lookAt.position;
 
         //print("--- targetrot" + targetRotation.ToString());
 	}
