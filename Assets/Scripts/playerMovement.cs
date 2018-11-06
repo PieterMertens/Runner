@@ -46,13 +46,13 @@ public class PlayerMovement : MonoBehaviour
         //X
         float input = Input.GetAxisRaw("Horizontal");
         if (isMovingInX == 0) {
-            if (dir == Swipe.Right) {
+            if (dir == Swipe.Right|| dir==Swipe.TapRight) {
                 currentSpeedX = speedX;
                 isMovingInX += 1;
                 currentLane += 1;
                 StartCoroutine(stopMovingInX());
 
-            } else if (dir == Swipe.Left) {
+            } else if (dir == Swipe.Left|| dir==Swipe.TapLeft) {
                 currentSpeedX = -speedX;
                 isMovingInX += 1;
                 currentLane -= 1;
@@ -69,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         //Y
-        if (dir == Swipe.Up || dir == Swipe.Tap || Input.GetAxisRaw("Vertical") == 1) {
+        if (dir == Swipe.Up || dir == Swipe.TapMiddle || Input.GetAxisRaw("Vertical") == 1) {
             if (isMovingInY < isMovingInYThreshold) {
                 isMovingInY += 1;
                 currentSpeedY = speedY;
