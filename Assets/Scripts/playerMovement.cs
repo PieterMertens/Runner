@@ -2,57 +2,103 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
 
     private CharacterController controller;
     private Vector3 moveVector;
 
 
-    public float speed = 3f;
+    private float speedZ = 5f;
+    private float speedX = 5f;
+    private float speedY = 5f;
+
+    private float currentSpeedZ = 0f;
+    private float currentSpeedY = 0f;
+    private float currentSpeedX = 0f;
 
     private float gravity = -10f;
-    private float verticalVelocity = 0f;
 
-	// Use this for initialization
-	void Start () {
+    private int isMovingInY = 0;
+    private int isMovingInX = 0;
+
+    private int isMovingInYThreshold = 2;
+
+    private int currentLane = 0;
+
+
+    // Use this for initialization
+    void Start()
+    {
         controller = GetComponent<CharacterController>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        Swipe dir = SwipeManager.swipeDirection;
-        moveVector = Vector3.zero;
 
+        //Z
+        currentSpeedZ = speedZ;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Swipe dir = SwipeManager.swipeDirection;
+
+
+        //TODO implementeren van links en rechts "tappen" voor besturing
         //X
-        if (dir == Swipe.Right) {
-            moveVector.x = 1;
-        } else if (dir == Swipe.Left){
-            moveVector.x = -1;
+        float input = Input.GetAxisRaw("Horizontal");
+        if (isMovingInX == 0) {
+            if (dir == Swipe.Right) {
+                currentSpeedX = speedX;
+                isMovingInX += 1;
+                currentLane += 1;
+                StartCoroutine(stopMovingInX());
+
+            } else if (dir == Swipe.Left) {
+                currentSpeedX = -speedX;
+                isMovingInX += 1;
+                currentLane -= 1;
+                StartCoroutine(stopMovingInX());
+
+            } else if (input != 0) {
+                currentSpeedX = input * speedX;
+                isMovingInX += 1;
+                currentLane += (int)input;
+                StartCoroutine(stopMovingInX());
+            }
         }
-        moveVector.x = Input.GetAxisRaw("Horizontal");
+        //
 
 
         //Y
-        if (dir == Swipe.Up || dir == Swipe.Tap || Input.GetAxisRaw("Vertical") == 1)
-        {
-            print("--- Input.GetAxisRaw()" + Input.GetAxisRaw("Vertical").ToString());
-            verticalVelocity = 7f;
+        if (dir == Swipe.Up || dir == Swipe.Tap || Input.GetAxisRaw("Vertical") == 1) {
+            if (isMovingInY < isMovingInYThreshold) {
+                isMovingInY += 1;
+                currentSpeedY = speedY;
+            }
         }
-       
 
-        if (!controller.isGrounded) {
-            verticalVelocity += gravity * Time.deltaTime;
+        if (controller.isGrounded) {
+            isMovingInY = 0;
+        } else {
+            currentSpeedY += gravity * Time.deltaTime;
         }
-        moveVector.y = verticalVelocity;
+        //
 
-        //Z
-        moveVector.z = speed;
-
-        controller.Move(moveVector * Time.deltaTime);
-	}
-
-    public void setSpeed(float multiplier) {
-        speed = speed * multiplier;
+        controller.Move(new Vector3(currentSpeedX, currentSpeedY, currentSpeedZ) * Time.deltaTime);
     }
+
+    public void setSpeed(float multiplier)
+    {
+        currentSpeedZ = currentSpeedZ * multiplier;
+    }
+
+
+    IEnumerator stopMovingInX()
+    {
+        yield return new WaitForSeconds(1 / Mathf.Abs(currentSpeedX));
+        transform.position = new Vector3((int)transform.position.x, transform.position.y, transform.position.z);
+        currentSpeedX = 0;
+        isMovingInX = 0;
+    }
+
 
 }
