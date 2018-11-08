@@ -10,18 +10,26 @@ public class ScoreManager : MonoBehaviour {
     public Text scoreText;
 
     private PlayerMovement playerMovement;
+    public DeathMenu deathMenu;
 
     private float scoreToNextLevel = 20f;
     private float multiplier = 1f;
+
+    private bool isDead = false;
 
 
 	// Use this for initialization
 	void Start () {
         playerMovement = GetComponent<PlayerMovement>();
+        
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (isDead) {
+            return;
+        }
         
         //TODO score ook rekening houden met coins,...
         score = transform.position.z;
@@ -37,5 +45,15 @@ public class ScoreManager : MonoBehaviour {
         
         playerMovement.setSpeed(multiplier);
     }
+
+    public void Die() {
+        isDead = true;
+        deathMenu.showDeathMenu(score);
+    }
+
+    public void Revive() {
+        isDead = false;
+    }
+
 
 }

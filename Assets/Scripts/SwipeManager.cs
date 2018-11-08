@@ -12,7 +12,7 @@ public class SwipeManager : MonoBehaviour
     Vector2 currentSwipe;
 
     private int screenWidth = Screen.width;
-    private int screenHeight = Screen.height;
+    //private int screenHeight = Screen.height;
 
     public static Swipe swipeDirection;
 

@@ -27,11 +27,15 @@ public class PlayerMovement : MonoBehaviour
     private int currentLane = 0;
 
 
+    private bool isDead = false;
+    private float deathDepthThreshold = -10f;
+
+
     // Use this for initialization
     void Start()
     {
         controller = GetComponent<CharacterController>();
-
+       
         //Z
         currentSpeedZ = speedZ;
     }
@@ -39,7 +43,15 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isDead) {
+            return;
+        }
+
+
         Swipe dir = SwipeManager.swipeDirection;
+        checkFalling();
+        
+
 
 
         //TODO implementeren van links en rechts "tappen" voor besturing
@@ -100,5 +112,28 @@ public class PlayerMovement : MonoBehaviour
         isMovingInX = 0;
     }
 
+
+    private void checkFalling() {
+        if (controller.transform.position.y< deathDepthThreshold) {
+            Die("Fall");
+        }
+    }
+
+
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.tag == "Obstacle" && hit.point.z > transform.position.z + controller.radius) {
+            Die("Hit");
+        }
+    }
+
+    //TODO reden van dood meegeven -> gevallen, gebotst tegen iets...
+    private void Die(string reason) {
+        isDead = true;
+        //TODO stop animatie
+        GetComponent<ScoreManager>().Die();
+    
+    }
 
 }
