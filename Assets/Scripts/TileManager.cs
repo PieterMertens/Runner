@@ -70,7 +70,7 @@ public class TileManager : MonoBehaviour {
             return 0;
         }
 
-        int randomIndex = Random.Range(0,tilePrefabs.Length);
+        int randomIndex = Random.Range(1,tilePrefabs.Length);
         if (randomIndex == lastPrefabIndex) {
             return (lastPrefabIndex + 1) % tilePrefabs.Length;
         }

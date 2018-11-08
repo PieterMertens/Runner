@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -264,6 +264,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 413631454}
+  backgroundImg: {fileID: 331550976}
+  isShown: 0
 --- !u!1 &413631452
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,14 +567,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilePrefabs:
   - {fileID: 1490817453750188, guid: 42f79f47e479c3a478b16a025ce5e78b, type: 2}
-  - {fileID: 1460831686397896, guid: ee7fecaf638d6dc4299a74d0cc48c288, type: 2}
-  - {fileID: 1710436768227562, guid: 086387f9d3598904aab99e0fccfad9ee, type: 2}
-  - {fileID: 1668131870186320, guid: 2238ab8ef7912544db321b83e1168376, type: 2}
-  - {fileID: 1514943912715692, guid: a4f2509ed6af4d848825a53b3cd5983c, type: 2}
-  - {fileID: 1082716095187552, guid: 90dd6fec021f65c4e8b42622e5fd9286, type: 2}
-  - {fileID: 1798561141627858, guid: a81e26bef4f832240a41361b195aa948, type: 2}
-  - {fileID: 1942000988208144, guid: 9aa97e9c8be1d804a8c932993aae95a8, type: 2}
-  - {fileID: 1484783617136682, guid: 8e7d456052e765149bcb0d2c8cd70355, type: 2}
+  - {fileID: 1993479669431232, guid: 177a57f32012a094ca66a2043a7f666c, type: 2}
+  - {fileID: 1299647201515628, guid: ea62d6a1fb68c2043a8bd45a550bca54, type: 2}
+  - {fileID: 1877667320760084, guid: 4351fda1f9c6161448b8644df7ce3a66, type: 2}
+  - {fileID: 1997879785242928, guid: f6d0483f18f2a2646980ed411eaa62b5, type: 2}
+  - {fileID: 1483041099562778, guid: 8dd24c3d2c5b8ca48a6975c40f3dfac4, type: 2}
+  - {fileID: 1881204619083532, guid: 7ca530002a1f5c043b9a3d9663e45a23, type: 2}
+  - {fileID: 1580451975491616, guid: d9fb18c22e9650f4ea17468ca4e55f84, type: 2}
+  - {fileID: 0}
   tileLength: 10
   amountOfTiles: 10
 --- !u!1 &718162038 stripped
