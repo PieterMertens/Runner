@@ -6,23 +6,24 @@ public class PlayerMovement : MonoBehaviour
 {
 
     private CharacterController controller;
+    private PlayerAnimator playerAnimator;
     private Vector3 moveVector;
 
 
-    private float speedZ = 5f;
+    private float speedZ = 6f;
     private float speedX = 5f;
-    private float speedY = 5f;
+    private float speedY = 4f;
 
     private float currentSpeedZ = 0f;
     private float currentSpeedY = 0f;
     private float currentSpeedX = 0f;
 
-    private float gravity = -10f;
+    private float gravity = -12f;
 
     private int isMovingInY = 0;
     private int isMovingInX = 0;
 
-    private int isMovingInYThreshold = 2;
+    private int isMovingInYThreshold = 1;
 
     private int currentLane = 0;
 
@@ -35,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        playerAnimator = GetComponent<PlayerAnimator>();
        
         //Z
         currentSpeedZ = speedZ;
@@ -83,8 +85,13 @@ public class PlayerMovement : MonoBehaviour
         //Y
         if (dir == Swipe.Up || dir == Swipe.TapMiddle || Input.GetAxisRaw("Vertical") == 1) {
             if (isMovingInY < isMovingInYThreshold) {
+                //FIXME werkt  ng maar een keer als threshold hoger staat, ook animatie fixen bij verandering
+                //voorlopig goed zo
                 isMovingInY += 1;
                 currentSpeedY = speedY;
+            }
+            if (isMovingInY == 1) {
+                playerAnimator.jumpAnimation();
             }
         }
 
@@ -112,6 +119,17 @@ public class PlayerMovement : MonoBehaviour
         isMovingInX = 0;
     }
 
+    public void slowDownFor(float seconds) {
+        StartCoroutine(slowDownForNum(seconds));
+    }
+
+    IEnumerator slowDownForNum(float seconds)
+    {
+        currentSpeedZ = currentSpeedZ/2;
+        yield return new WaitForSeconds(seconds);
+        currentSpeedZ = speedZ;
+
+    }
 
     private void checkFalling() {
         if (controller.transform.position.y< deathDepthThreshold) {
@@ -131,9 +149,12 @@ public class PlayerMovement : MonoBehaviour
     //TODO reden van dood meegeven -> gevallen, gebotst tegen iets...
     private void Die(string reason) {
         isDead = true;
+        playerAnimator.idleAnimation();
         //TODO stop animatie
         GetComponent<ScoreManager>().Die();
     
     }
+
+ 
 
 }

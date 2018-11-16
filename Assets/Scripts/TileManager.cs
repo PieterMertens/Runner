@@ -10,7 +10,7 @@ public class TileManager : MonoBehaviour {
 
     public float tileLength = 10f;
     private float spawnZ = 0f;
-    public int amountOfTiles = 5;
+    public int amountOfTiles =8;
 
     private List<GameObject> activeTiles;
     private float safeZone = 11f;
@@ -53,7 +53,7 @@ public class TileManager : MonoBehaviour {
         {
             go = Instantiate(tilePrefabs[0]) as GameObject;
         }
-        else
+                else
         {
             go = Instantiate(tilePrefabs[RandomPrefabIndex()]) as GameObject;
         }
@@ -71,9 +71,10 @@ public class TileManager : MonoBehaviour {
         }
 
         int randomIndex = Random.Range(1,tilePrefabs.Length);
-        if (randomIndex == lastPrefabIndex) {
-            return (lastPrefabIndex + 1) % tilePrefabs.Length;
+        while (randomIndex == lastPrefabIndex) {
+            randomIndex = Random.Range(1, tilePrefabs.Length);
         }
+        lastPrefabIndex = randomIndex;
         return randomIndex;
 
     }
@@ -81,9 +82,7 @@ public class TileManager : MonoBehaviour {
 
     private void DeleteTile() {
         Destroy(activeTiles[0]);
-        activeTiles.RemoveAt(0);
-
-       
+        activeTiles.RemoveAt(0);       
     }
 
 
