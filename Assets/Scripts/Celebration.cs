@@ -34,7 +34,7 @@ public class Celebration : MonoBehaviour {
     private bool checkForMilestone() {
         if ((int) transform.position.z % milestoneDistance == 0 && transform.position.z >= currentMilestone) {
             currentMilestone += milestoneDistance;
-            playerMovement.slowDownFor(2);
+            //playerMovement.slowDownFor(2);
             playerAnimator.danceAnimation();
 
             return true;

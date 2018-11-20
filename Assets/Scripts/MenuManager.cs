@@ -16,5 +16,6 @@ public class MenuManager : MonoBehaviour {
     }
 
     public void startGame() { 
-    SceneManager.LoadScene("Game");}
+    SceneManager.LoadScene("Game");
+    }
 }
