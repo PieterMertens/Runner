@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveVector;
 
 
-    private float speedZ = 6f;
+    private float speedZ = 8f;
     private float speedX = 5f;
     private float speedY = 4f;
 
@@ -125,9 +125,9 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator slowDownForNum(float seconds)
     {
-        currentSpeedZ = currentSpeedZ/2;
+        currentSpeedZ = currentSpeedZ/3;
         yield return new WaitForSeconds(seconds);
-        currentSpeedZ = speedZ;
+        currentSpeedZ = currentSpeedZ*3;
 
     }
 

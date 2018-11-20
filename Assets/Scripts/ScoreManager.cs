@@ -40,8 +40,8 @@ public class ScoreManager : MonoBehaviour {
     }
 
     private void LevelUp() {
-        scoreToNextLevel *= 2;
-        if (multiplier < 5) { multiplier += 0.05f; } else { multiplier += 0.01f; }
+        scoreToNextLevel +=scoreToNextLevel+ 15;
+        if (multiplier < 3) { multiplier += 0.03f; } else { multiplier += 0.001f; }
         
         playerMovement.setSpeed(multiplier);
     }

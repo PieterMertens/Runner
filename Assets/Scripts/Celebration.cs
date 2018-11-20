@@ -6,7 +6,7 @@ public class Celebration : MonoBehaviour {
 
     public ParticleSystem particleSystem;
     private int currentMilestone = 0;
-    private int milestoneDistance = 50;
+    private int milestoneDistance = 250;
 
     private PlayerAnimator playerAnimator;
     private PlayerMovement playerMovement;
