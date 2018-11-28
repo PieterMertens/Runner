@@ -622,7 +622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81bddabf5371e48458a69c2618eafaf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinManager: {fileID: 0}
+  coinManager: {fileID: 2013188584}
   coinScript: {fileID: 0}
   scoreManager: {fileID: 0}
 --- !u!114 &718162040
