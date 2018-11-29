@@ -33,4 +33,8 @@ public class MenuManager : MonoBehaviour {
     {
         SceneManager.LoadScene("SettingsMenu");
     }
+    public void loadHighscoresMenu()
+    {
+        SceneManager.LoadScene("Highscores");
+    }
 }
