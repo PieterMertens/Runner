@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     private float speedZ = 8f;
-    private float speedX = 5f;
+    private float speedX = 8f;
     private float speedY = 4f;
 
     private float currentSpeedZ = 0f;
