@@ -13,17 +13,17 @@ public class ToggleManager : MonoBehaviour {
 
     void Start()
     {
+        Debug.Log("IN HEEERE");
+        Debug.Log(PlayerPrefs.GetInt("music"));
         //Fetch the Toggle GameObject
         System.Diagnostics.Debug.WriteLine("TOGGLE NAME" + m_Toggle.name);
         if (m_Toggle.name.Contains("Sounds")) {
-            m_Toggle.isOn = SettingsData.getSounds();
+            if (!PlayerPrefs.HasKey("sounds")) PlayerPrefs.SetInt("sounds", 1);
+            m_Toggle.isOn = PlayerPrefs.GetInt("sounds") == 0 ? false : true;
         }
         if (m_Toggle.name.Contains("Music")) {
-
-            m_Toggle.isOn = SettingsData.getMusic();
-        }
-        if (m_Toggle.name.Contains("Nightmode")) {
-            m_Toggle.isOn = SettingsData.getNightmode();
+            if (!PlayerPrefs.HasKey("music")) PlayerPrefs.SetInt("music", 1);
+            m_Toggle.isOn = PlayerPrefs.GetInt("music") == 0 ? false: true;
         }
         //Add listener for when the state of the Toggle changes, to take action
         m_Toggle.onValueChanged.AddListener(delegate {
@@ -37,14 +37,22 @@ public class ToggleManager : MonoBehaviour {
     //Output the new state of the Toggle into Text
     void ToggleValueChanged(Toggle change)
     {
+        Debug.Log(m_Toggle.name);
         if (!m_Toggle.isOn)
             m_Text.text = "Disabled";
         else
             m_Text.text = "Enabled";
+        if (m_Toggle.name.Contains("Music"))
+        {
+            Debug.Log("toggling music");
+            PlayerPrefs.SetInt("music", PlayerPrefs.GetInt("music") == 1 ? 0 : 1);
+        }
+        if (m_Toggle.name.Contains("Sounds"))
+            PlayerPrefs.SetInt("sounds", PlayerPrefs.GetInt("sounds") == 1 ? 0 : 1);
+        Debug.Log(PlayerPrefs.GetInt("music"));
     }
+        // Update is called once per frame
+        void Update () {
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
+    }
 }
