@@ -43,7 +43,7 @@ public class DeathMenu : MonoBehaviour {
 
     public void goToMenu() {
         //TODO maak menuscene
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("StartMenu");
     }
 
 }
