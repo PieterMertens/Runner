@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController controller;
     private PlayerAnimator playerAnimator;
     private Vector3 moveVector;
-    
+
 
 
     private float speedZ = 8f;
@@ -46,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
         scoreManager = GetComponent<ScoreManager>();
         //Z
         currentSpeedZ = speedZ;
+        AnalyticsEvent.FirstInteraction();
     }
 
     // Update is called once per frame
@@ -58,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
 
         Swipe dir = SwipeManager.swipeDirection;
         checkFalling();
-        
+
 
 
 
@@ -66,13 +68,13 @@ public class PlayerMovement : MonoBehaviour
         //X
         float input = Input.GetAxisRaw("Horizontal");
         if (isMovingInX == 0) {
-            if (dir == Swipe.Right|| dir==Swipe.TapRight) {
+            if (dir == Swipe.Right || dir == Swipe.TapRight) {
                 currentSpeedX = speedX;
                 isMovingInX += 1;
                 currentLane += 1;
                 StartCoroutine(stopMovingInX());
 
-            } else if (dir == Swipe.Left|| dir==Swipe.TapLeft) {
+            } else if (dir == Swipe.Left || dir == Swipe.TapLeft) {
                 currentSpeedX = -speedX;
                 isMovingInX += 1;
                 currentLane -= 1;
@@ -125,20 +127,22 @@ public class PlayerMovement : MonoBehaviour
         isMovingInX = 0;
     }
 
-    public void slowDownFor(float seconds) {
+    public void slowDownFor(float seconds)
+    {
         StartCoroutine(slowDownForNum(seconds));
     }
 
     IEnumerator slowDownForNum(float seconds)
     {
-        currentSpeedZ = currentSpeedZ/3;
+        currentSpeedZ = currentSpeedZ / 3;
         yield return new WaitForSeconds(seconds);
-        currentSpeedZ = currentSpeedZ*3;
+        currentSpeedZ = currentSpeedZ * 3;
 
     }
 
-    private void checkFalling() {
-        if (controller.transform.position.y< deathDepthThreshold) {
+    private void checkFalling()
+    {
+        if (controller.transform.position.y < deathDepthThreshold) {
             Die("Fall");
         }
     }
@@ -150,8 +154,7 @@ public class PlayerMovement : MonoBehaviour
         if (hit.gameObject.tag == "Obstacle" && hit.point.z > transform.position.z + controller.radius) {
             Die("Hit");
         }
-        if (hit.gameObject.tag == "Coin")
-        {
+        if (hit.gameObject.tag == "Coin") {
             GameObject coin = hit.gameObject;
             coinScript.deleteCoin(coin);
             scoreManager.collectCoin();
@@ -159,14 +162,16 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //TODO reden van dood meegeven -> gevallen, gebotst tegen iets...
-    private void Die(string reason) {
+    private void Die(string reason)
+    {
         isDead = true;
         playerAnimator.idleAnimation();
         //TODO stop animatie
         GetComponent<ScoreManager>().Die();
-        
+        AnalyticsEvent.Custom("Death", new Dictionary<string, object> { { "Cause", reason } });
+
     }
 
- 
+
 
 }

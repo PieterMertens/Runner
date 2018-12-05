@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public enum Swipe { None, Up, Down, Left, Right, TapMiddle, TapRight, TapLeft };
 
@@ -40,10 +41,13 @@ public class SwipeManager : MonoBehaviour
                 if (currentSwipe.magnitude < minSwipeLength) {
                     if (firstPressPos.x < screenWidth / 3) {
                         swipeDirection = Swipe.TapLeft;
+                        AnalyticsEvent.Custom("Controls", new Dictionary<string, object> { { "Tap", "Left" } });
                     } else if (firstPressPos.x > screenWidth * 2 / 3) {
                         swipeDirection = Swipe.TapRight;
+                        AnalyticsEvent.Custom("Controls", new Dictionary<string, object> { { "Tap", "Right" } });
                     } else {
                         swipeDirection = Swipe.TapMiddle;
+                        AnalyticsEvent.Custom("Controls", new Dictionary<string, object> { { "Tap", "Middle" } });
                     }
                     return;
                 }
@@ -53,18 +57,19 @@ public class SwipeManager : MonoBehaviour
                 // Swipe up
                 if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
                     swipeDirection = Swipe.Up;
-
+                    AnalyticsEvent.Custom("Controls", new Dictionary<string, object> { { "Swipe", "Up" } });
                     // Swipe down
                 } else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
                     swipeDirection = Swipe.Down;
-
+                    AnalyticsEvent.Custom("Controls", new Dictionary<string, object> { { "Swipe", "Down" } });
                     // Swipe left
                 } else if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
                     swipeDirection = Swipe.Left;
-
+                    AnalyticsEvent.Custom("Controls", new Dictionary<string, object> { { "Swipe", "Left" } });
                     // Swipe right
                 } else if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
                     swipeDirection = Swipe.Right;
+                    AnalyticsEvent.Custom("Controls", new Dictionary<string, object> { { "Swipe", "Right" } });
                 }
             }
         } else {

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI; //Need this for calling UI scripts
+using UnityEngine.Analytics;
 
 public class Manager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class Manager : MonoBehaviour
     {
         UIPanel.gameObject.SetActive(false); //make sure our pause menu is disabled when scene starts
         isPaused = false; //make sure isPaused is always false when our scene opens
+        AnalyticsEvent.GameStart();
     }
 
     void Update()
@@ -48,6 +50,7 @@ public class Manager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+        AnalyticsEvent.GameOver();
     }
 
     public void Restart()
