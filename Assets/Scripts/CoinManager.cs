@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CoinManager : MonoBehaviour {
 
+    // TEST //
     //Prefab coin used//
     public GameObject coinPrefab;
 
