@@ -247,6 +247,7 @@ GameObject:
   - component: {fileID: 9078583}
   - component: {fileID: 9078582}
   - component: {fileID: 9078584}
+  - component: {fileID: 9078585}
   m_Layer: 5
   m_Name: _MenuManager
   m_TagString: Untagged
@@ -298,6 +299,17 @@ MonoBehaviour:
   achievementsButtonText: {fileID: 273386019}
   leaderboardButton: {fileID: 1236370071}
   leaderboardButtonsText: {fileID: 585054020}
+--- !u!114 &9078585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 9078581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9ebc661136704643b03a4df2a9b3627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &83948680
 Prefab:
   m_ObjectHideFlags: 0
