@@ -568,43 +568,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePrefabs:
-  - {fileID: 1993479669431232, guid: 177a57f32012a094ca66a2043a7f666c, type: 2}
   - {fileID: 1299647201515628, guid: ea62d6a1fb68c2043a8bd45a550bca54, type: 2}
-  - {fileID: 1877667320760084, guid: 4351fda1f9c6161448b8644df7ce3a66, type: 2}
+  - {fileID: 1993479669431232, guid: 177a57f32012a094ca66a2043a7f666c, type: 2}
   - {fileID: 1997879785242928, guid: f6d0483f18f2a2646980ed411eaa62b5, type: 2}
-  - {fileID: 1568126478475692, guid: 685b8e0479da1dd48a7bad80e9f2f8d8, type: 2}
-  - {fileID: 1139836864169378, guid: 7ca530002a1f5c043b9a3d9663e45a23, type: 2}
-  - {fileID: 1849479122876184, guid: d9fb18c22e9650f4ea17468ca4e55f84, type: 2}
-  - {fileID: 1065391860990080, guid: b67bafbbf8ba0d8488e3be5e08322236, type: 2}
-  - {fileID: 1347183234318856, guid: abd000e119609774a8b97dfa0d9c9a95, type: 2}
-  - {fileID: 1809110265988048, guid: a899a78622057774cba1392bcec11a6b, type: 2}
-  - {fileID: 1239465959138228, guid: 23b0a57da3c61694b8b02b33ee19b037, type: 2}
-  - {fileID: 1433653002133262, guid: 3f6c298890a699448b09ade0b5938a71, type: 2}
-  - {fileID: 1665479547663946, guid: 25f66c47a36411c479b78829c7ad7b46, type: 2}
-  - {fileID: 1122635161760838, guid: 0a80d017a1f63764d84fb75c6d0f1451, type: 2}
-  - {fileID: 1812826114194616, guid: 83011e5a41ed63744a86749d4ead2048, type: 2}
-  - {fileID: 1941128394522898, guid: d2ac5e65bb0dc2046b18f9ed8be4dd11, type: 2}
-  - {fileID: 1206172156097406, guid: 22db0cdf595dd524e9226d94cc6e8c0c, type: 2}
-  - {fileID: 1998445298933082, guid: 8f92d0d36a5d71547be7f9266b5db5c8, type: 2}
-  - {fileID: 1419996820965590, guid: be4693ed2eb56e148a4eaf365af9fb11, type: 2}
-  - {fileID: 1052834082087484, guid: 6a37f6974844301439b8ee51426bb66a, type: 2}
-  - {fileID: 1853080029450846, guid: dad3ec81bb2d9c942afacc827eaf2b4f, type: 2}
-  - {fileID: 1141236063631768, guid: 9f7c6ed0871048c4c88e31e834ff1871, type: 2}
-  - {fileID: 1882203780408470, guid: 8f592672f9c29564e8b3fdd264cd9660, type: 2}
-  - {fileID: 1334950476929666, guid: 1ce835997b8ecd043bc5073b2f0d6f8f, type: 2}
-  - {fileID: 1748430600329240, guid: 742bc76abe59422488968b4ed5f47fb6, type: 2}
-  - {fileID: 1000077936284480, guid: 0ff2ae56ed88eb244819e9b311abfe8a, type: 2}
-  - {fileID: 1986663015363078, guid: eead60c677c2e9e4096a15cd39a260c6, type: 2}
-  - {fileID: 1747111485638640, guid: cb3e5b5446e66aa4fbe2c33409f0bea2, type: 2}
-  - {fileID: 1446308687791264, guid: d0dd50142458cd14f99f6fda4aabe10e, type: 2}
-  - {fileID: 1584082478186688, guid: a7382c29aef41b145b8142aa40690a7f, type: 2}
-  - {fileID: 1937789819818106, guid: e628da6ef3bf1ec4787122f21eb2308a, type: 2}
-  - {fileID: 1059428023217562, guid: 8a724b6d6d844a54a9b2b643424db3fe, type: 2}
-  - {fileID: 1654176546133524, guid: a10b524b9d4efe043bc5fe959b51fe88, type: 2}
-  - {fileID: 1028683072424986, guid: ba40d315f59d0c94da79252626609df8, type: 2}
-  - {fileID: 1842497144522534, guid: 1d6fdb1733a3d6a40b39e5eefc41cf5b, type: 2}
-  - {fileID: 1690142713974110, guid: 4512082887679024d9cb027df96ed8d3, type: 2}
-  - {fileID: 1726676975504324, guid: b6f985801cc66994889ad1e126316652, type: 2}
+  - {fileID: 1877667320760084, guid: 4351fda1f9c6161448b8644df7ce3a66, type: 2}
+  obstaclesHigh:
+  - {fileID: 1750327248250722, guid: ef6361d88d815ce4d97829740675f90c, type: 2}
+  - {fileID: 1265169922838990, guid: 300b30e1abf73d54abd5738bf1abaaa6, type: 2}
+  - {fileID: 1034812972947620, guid: df5bb5e0f8eb1d145b9d6a90fafe693f, type: 2}
+  - {fileID: 1941187579708222, guid: f2a350bce71fe4b43a4249ef778495ad, type: 2}
+  obstaclesLow:
+  - {fileID: 1764153143500080, guid: a62843b445833a142b04c3f407044286, type: 2}
+  - {fileID: 1242549335098480, guid: d5d0673d127dcae4aaac7d8d274a1f2c, type: 2}
+  - {fileID: 1609005190981522, guid: bf129d4f09aefce49b23b524dda6af73, type: 2}
+  - {fileID: 1620283478126264, guid: d475079301b36c24f8be395f49672ddd, type: 2}
   tileLength: 10
   amountOfTiles: 37
 --- !u!1 &718162038 stripped
