@@ -51,6 +51,15 @@ public class ScoreManager : MonoBehaviour {
     public void Die() {
         isDead = true;
         deathMenu.showDeathMenu(score);
+        updateHighScore();
+    }
+
+    public void updateHighScore() {
+        if (PlayerPrefs.HasKey("highscore")) {
+            if (PlayerPrefs.GetInt("highscore") < score) PlayerPrefs.SetInt("highscore", ((int) score));
+        }
+        PlayerPrefs.SetInt("highscore", (int)score);
+        
     }
 
     public void Revive() {

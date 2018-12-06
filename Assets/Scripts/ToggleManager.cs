@@ -33,16 +33,18 @@ public class ToggleManager : MonoBehaviour {
     }
 
     public void switchMusicToggle() {
-        if (PlayerPrefs.GetInt("music") == 0) ToggleText.text = "✔ Enabled";
-        else ToggleText.text = "Disabled"; 
         togglePlayerPref("music");
+        if (PlayerPrefs.GetInt("music") == 1) ToggleText.text = "✔ Enabled";
+        else ToggleText.text = "Disabled"; 
+        
         
     }
 
     public void switchSoundsToggle() {
-        if (PlayerPrefs.GetInt("sounds") == 0) ToggleText.text = "✔ Enabled";
-        else ToggleText.text = " X Disabled";
         togglePlayerPref("sounds");
+        if (PlayerPrefs.GetInt("sounds") == 1) ToggleText.text = "✔ Enabled";
+        else ToggleText.text = " X Disabled";
+        
     }
 
 }

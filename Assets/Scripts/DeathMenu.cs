@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class DeathMenu : MonoBehaviour {
 
     public Text scoreText;
+    public Text highscoreText;
     public Image backgroundImg;
     private float transitionTime = 0.0f;
 
@@ -33,7 +34,11 @@ public class DeathMenu : MonoBehaviour {
     public void showDeathMenu(float score) {
         isShown = true;
         gameObject.SetActive(true);
-        scoreText.text = ((int) score).ToString();
+        scoreText.text = "Score:" + ((int) score).ToString();
+        if (PlayerPrefs.HasKey("highscore"))
+            highscoreText.text = "Highscore: " + ((int) PlayerPrefs.GetInt("highscore")).ToString();
+        else
+            highscoreText.text = "Highscore: " + score;
     }
 
     public void restart() {
