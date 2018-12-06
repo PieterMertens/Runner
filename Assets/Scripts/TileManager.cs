@@ -34,7 +34,6 @@ public class TileManager : MonoBehaviour {
         //TODO begin speciaal maken of duidelijk
         for (int i = 0; i < amountOfTiles; i++)
         {
-            Debug.Log(spawnZ);
             if (i < 3) {
                 SpawnTile(0);
             }
@@ -50,7 +49,12 @@ public class TileManager : MonoBehaviour {
                     colorObstacle += 1;
                 }
 
-                SpawnObstacles(colorObstacle);
+                int roundZ = Mathf.RoundToInt(spawnZ);
+                Debug.Log(roundZ % 250);
+                Debug.Log(roundZ % 250);
+                if (!(roundZ % 250 == 0) && !(roundZ % 250 == 10) && !(roundZ % 250 == 20)){
+                    SpawnObstacles(colorObstacle);
+                }
                 SpawnTile(colorTile);
             }
         }
@@ -73,9 +77,15 @@ public class TileManager : MonoBehaviour {
             if (colorObstacle >= colorTile) {
                 colorObstacle += 1;
             }
-
-            SpawnObstacles(colorObstacle);
-            DeleteObstacles(position);
+            Debug.Log("new update");
+            Debug.Log(spawnZ);
+            int roundZ = Mathf.RoundToInt(spawnZ);
+            Debug.Log(roundZ%250);
+            Debug.Log(roundZ % 250);
+            if (!(roundZ % 250 == 0) && !(roundZ % 250 == 10) && !(roundZ % 250 == 20)){
+                SpawnObstacles(colorObstacle);
+                DeleteObstacles(position);
+            }
 
             SpawnTile(colorTile);
             DeleteTile();
