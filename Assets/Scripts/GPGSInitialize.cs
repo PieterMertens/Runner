@@ -59,7 +59,7 @@ public class GPGSInitialize : MonoBehaviour {
         if (!PlayGamesPlatform.Instance.localUser.authenticated) {
             // Sign in with Play Game Services, showing the consent dialog
             // by setting the second parameter to isSilent=false.
-            PlayGamesPlatform.Instance.Authenticate(SignInCallback, false);
+            PlayGamesPlatform.Instance.Authenticate(SignInCallback, true);
         } /*else {
             // Sign out of play games
             PlayGamesPlatform.Instance.SignOut();
