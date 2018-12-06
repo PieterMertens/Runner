@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CoinManager : MonoBehaviour {
 
-    // TEST //
     //Prefab coin used//
     public GameObject coinPrefab;
 
@@ -23,16 +22,22 @@ public class CoinManager : MonoBehaviour {
     //The next position that something needs to happen//
     int nextPositionToHandle;
 
+    TileManager tileManager;
+    List<GameObject> obstacles;
+
     // Use this for initialization
     void Start() {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         coins = new List<GameObject>();
 
         nextPositionToHandle = 0;
+
+        obstacles = tileManager.activeObstacles;
     }
 
     // Update is called once per frame
     void Update() {
+        obstacles = tileManager.activeObstacles;
         foreach (GameObject coin in coins.ToArray()) {
             if (checkIfPassed(coin)) {
                 deleteCoin(coin);
@@ -79,6 +84,10 @@ public class CoinManager : MonoBehaviour {
                 }
             }
         }
+    }
+
+    private bool canChangeLane(int pos, int randomLane, int lastXCo) {
+        return true;
     }
 
     private void spawnCoin(Vector3 position) {

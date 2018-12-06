@@ -17,8 +17,8 @@ public class TileManager : MonoBehaviour {
     private float spawnZ = 0f;
     public int amountOfTiles =8;
 
-    private List<GameObject> activeTiles;
-    private List<GameObject> activeObstacles;
+    public List<GameObject> activeTiles;
+    public List<GameObject> activeObstacles;
     private float safeZone = 11f;
 
     private int lastPrefabIndex = 0;
