@@ -73,10 +73,8 @@ public class TileManager : MonoBehaviour {
                 colorObstacle += 1;
             }
 
-            if (spawnZ % 250 >= 30 && spawnZ % 250 <= 220) {
-                SpawnObstacles(colorObstacle);
-                DeleteObstacles(position);
-            }
+            SpawnObstacles(colorObstacle);
+            DeleteObstacles(position);
 
             SpawnTile(colorTile);
             DeleteTile();
@@ -158,7 +156,7 @@ public class TileManager : MonoBehaviour {
     private List<int> getOtherObstacles() {
         List<int> result = new List<int>();
         for (int i = 0; i <2; i++)  {
-            bool high = (UnityEngine.Random.Range(0, 10) % 3 != 0);
+            bool high = (UnityEngine.Random.Range(0, 10) % 5 != 0);
             bool low = (UnityEngine.Random.Range(0, 10) % 3 != 0);
             if (high) { result.Add(2); }
             if (!high && low) { result.Add(1); }
