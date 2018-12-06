@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isDead = false;
     private float deathDepthThreshold = -10f;
 
+    private float lastCoinHit = 0f;
 
     // Use this for initialization
     void Start()
@@ -156,8 +157,12 @@ public class PlayerMovement : MonoBehaviour
         }
         if (hit.gameObject.tag == "Coin") {
             GameObject coin = hit.gameObject;
-            coinScript.deleteCoin(coin);
-            scoreManager.collectCoin();
+            float pos = coin.transform.position.z;
+            if (pos != lastCoinHit) {
+                coinScript.deleteCoin(coin);
+                scoreManager.collectCoin();
+                lastCoinHit = pos;
+            }
         }
     }
 

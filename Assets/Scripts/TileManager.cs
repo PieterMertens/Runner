@@ -34,6 +34,7 @@ public class TileManager : MonoBehaviour {
         //TODO begin speciaal maken of duidelijk
         for (int i = 0; i < amountOfTiles; i++)
         {
+            Debug.Log(spawnZ);
             if (i < 3) {
                 SpawnTile(0);
             }
