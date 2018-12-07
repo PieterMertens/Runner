@@ -11,7 +11,7 @@ public class GPGSInitialize : MonoBehaviour {
 
         // Create client configuration
         PlayGamesClientConfiguration config = new
-            PlayGamesClientConfiguration.Builder()
+            PlayGamesClientConfiguration.Builder().RequestServerAuthCode(false)
             .Build();
 
         // Enable debugging output (recommended)
