@@ -38,7 +38,7 @@ public class DeathMenu : MonoBehaviour {
         if (PlayerPrefs.HasKey("highscore"))
             highscoreText.text = "Highscore: " + ((int) PlayerPrefs.GetInt("highscore")).ToString();
         else
-            highscoreText.text = "Highscore: " + score;
+            highscoreText.text = "Highscore: " + ((int) score).ToString();
     }
 
     public void restart() {
