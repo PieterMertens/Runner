@@ -19,11 +19,14 @@ public class ScoreManager : MonoBehaviour {
 
     private bool isDead = false;
 
+    private GameObject tileManager;
+    private TileManager manager;
 
 	// Use this for initialization
 	void Start () {
         playerMovement = GetComponent<PlayerMovement>();
-        
+        tileManager = GameObject.Find("TileManager");
+        manager = tileManager.GetComponent<TileManager>();        
 	}
 	
 	// Update is called once per frame
@@ -46,6 +49,7 @@ public class ScoreManager : MonoBehaviour {
         if (multiplier < 3) { multiplier += 0.03f; } else { multiplier += 0.001f; }
         
         playerMovement.setSpeed(multiplier);
+        manager.updateObstaclesSpacing();
     }
 
     public void Die() {
