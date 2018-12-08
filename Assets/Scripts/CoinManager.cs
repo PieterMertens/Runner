@@ -22,22 +22,25 @@ public class CoinManager : MonoBehaviour {
     //The next position that something needs to happen//
     int nextPositionToHandle;
 
-    TileManager tileManager;
+    GameObject tileManager;
+    TileManager manager;
     List<GameObject> obstacles;
 
     // Use this for initialization
     void Start() {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         coins = new List<GameObject>();
+        tileManager = GameObject.Find("TileManager");
+        manager = tileManager.GetComponent<TileManager>();
 
         nextPositionToHandle = 0;
 
-        obstacles = tileManager.activeObstacles;
+        obstacles = manager.activeObstacles;
     }
 
     // Update is called once per frame
     void Update() {
-        obstacles = tileManager.activeObstacles;
+        obstacles = manager.activeObstacles;
         foreach (GameObject coin in coins.ToArray()) {
             if (checkIfPassed(coin)) {
                 deleteCoin(coin);
@@ -71,13 +74,29 @@ public class CoinManager : MonoBehaviour {
         int startLane = Random.Range(randomLanes - 1, randomLanes + 1);
         int lastXCo = startLane;
         for (int i = 0; i < randomSpawn; i++){
-            if (i - positionChanged < 3) {
-                spawnCoin(new Vector3(lastXCo, 1, currentZCo + 40 + i * spacing));
+            int otherXCo;
+            if (lastXCo == randomLanes) {
+                otherXCo = lastXCo - 1;
+            }
+            else {
+                otherXCo = lastXCo + 1;
+            }
+            if (i - positionChanged < 3 || !canChangeLane(otherXCo, currentZCo+40+i-spacing)) {
+                if (canSpawnCoin(lastXCo, currentZCo + 40 + i * spacing, false)) {
+                    spawnCoin(new Vector3(lastXCo, 1, currentZCo + 40 + i * spacing));
+                } else {
+                    randomSpawn += 1;
+                }
             }
 
             else{
                 int xCo = Random.Range(randomLanes - 1, randomLanes + 1);
-                spawnCoin(new Vector3(xCo, 1, currentZCo + 40 + i * spacing));
+                if (canSpawnCoin(xCo, currentZCo + 40 + i * spacing, false)) {
+                    spawnCoin(new Vector3(xCo, 1, currentZCo + 40 + i * spacing));
+                }
+                else {
+                    randomSpawn += 1;
+                }
                 if (lastXCo != xCo) {
                     lastXCo = xCo;
                     positionChanged = i;
@@ -86,7 +105,32 @@ public class CoinManager : MonoBehaviour {
         }
     }
 
-    private bool canChangeLane(int pos, int randomLane, int lastXCo) {
+    private bool canSpawnCoin(int xCo, int zCo, bool checkForHighOnly) {
+        foreach (GameObject obstacle in obstacles) {
+            Vector3 positionObstacle = obstacle.transform.position;
+            float zCoObstacle = positionObstacle.z;
+            float xCoObstacle = positionObstacle.x;
+            if (xCo == xCoObstacle && Mathf.Abs(zCo - zCoObstacle) <= 1) {
+                if (!checkForHighOnly) {
+                    return false;
+                }
+                else {
+                    if (obstacle.transform.lossyScale.y == 2) {
+                        return false;
+                    }
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private bool canChangeLane(int pos, int xCo) {
+        for (int i = 0; i < 3; i++) {
+            if (!canSpawnCoin(xCo, pos + i, true)) {
+                return false;
+            }
+        }
         return true;
     }
 
