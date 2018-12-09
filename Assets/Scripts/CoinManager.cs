@@ -14,7 +14,7 @@ public class CoinManager : MonoBehaviour {
     private Transform playerTransform;
 
     //Integer reflecting a random length for a coin streak, updated after every streak of coins//
-    int randomSpawn;
+    int streakLength;
 
     //Spacing between coins
     int spacing = 2;
@@ -59,9 +59,9 @@ public class CoinManager : MonoBehaviour {
         }
 
         if (currentZCo == nextPositionToHandle){
-            randomSpawn = Random.Range(10, 16);
-            nextPositionToHandle += randomSpawn*spacing*2;
-            randomSpawnCoin(randomSpawn, currentZCo);
+            streakLength = Random.Range(10, 16);
+            nextPositionToHandle += streakLength*spacing*2;
+            randomSpawnCoin(streakLength, currentZCo);
         }
     }
 
@@ -77,70 +77,51 @@ public class CoinManager : MonoBehaviour {
         }
     }
 
-    private void randomSpawnCoin(int randomSpawn, int currentZCo) {
-        int randomLanes = Random.Range(0, 2);
-        int positionChanged = 0;
-        int startLane = Random.Range(randomLanes - 1, randomLanes + 1);
-        int lastXCo = startLane;
-        for (int i = 0; i < randomSpawn; i++){
-            int otherXCo;
-            if (lastXCo == randomLanes) {
-                otherXCo = lastXCo - 1;
-            }
-            else {
-                otherXCo = lastXCo + 1;
-            }
-            if (i - positionChanged < 3 || !canChangeLane(otherXCo, currentZCo+40+i-spacing)) {
-                if (canSpawnCoin(lastXCo, currentZCo + 70 + i * spacing, false)) {
-                    spawnCoin(new Vector3(lastXCo, 1.5f, currentZCo + 70 + i * spacing));
-                } else {
-                    randomSpawn += 1;
-                }
+    private void randomSpawnCoin(int streakLength, int currentZCo) {
+        //// REIMPLEMENTATION
+
+        float lastOpeningZ = manager.getLastOpening(currentZCo + 70);
+        float nextOpeningZ = manager.getNextOpening(000022 +70);
+        int nextOpeningValue = manager.getOpeningAt(nextOpeningZ);
+
+        int lastLane = manager.getOpeningAt(lastOpeningZ);
+        int lastChanged = 0;
+
+        for (int i = 0; i < streakLength; i++) {
+            float coinX = 0;
+            float coinY = 1.5f;
+            float coinZ = currentZCo + 70 + i * spacing;
+
+            //// Y-value
+            if ((nextOpeningZ - coinZ == 0 || nextOpeningZ - coinZ == 1) && !manager.noJump(nextOpeningZ)) {
+                coinY = 1.75f;
             }
 
-            else{
-                int xCo = Random.Range(randomLanes - 1, randomLanes + 1);
-                if (canSpawnCoin(xCo, currentZCo + 70 + i * spacing, false)) {
-                    spawnCoin(new Vector3(xCo, 1.5f, currentZCo + 70 + i * spacing));
+            //// Z-value
+            if (coinZ - nextOpeningZ > 1) {
+                lastOpeningZ = nextOpeningZ;
+                nextOpeningZ = manager.getNextOpening(coinZ);
+                nextOpeningValue = manager.getOpeningAt(nextOpeningZ);
+            }
+
+            //// X-value
+            if (shouldChange(coinZ,nextOpeningZ,nextOpeningValue, lastLane,i , lastChanged)) {
+                coinX = nextOpeningValue;
+            } else {
+                if (canChange(coinZ, nextOpeningZ, lastOpeningZ, i, lastChanged)) {
+                    coinX = getRandomLane(lastLane, nextOpeningValue);
                 }
                 else {
-                    randomSpawn += 1;
-                }
-                if (lastXCo != xCo) {
-                    lastXCo = xCo;
-                    positionChanged = i;
+                    coinX = lastLane;
                 }
             }
-        }
-    }
 
-    private bool canSpawnCoin(int xCo, int zCo, bool checkForHighOnly) {
-        foreach (GameObject obstacle in obstacles) {
-            Vector3 positionObstacle = obstacle.transform.position;
-            float zCoObstacle = positionObstacle.z;
-            float xCoObstacle = positionObstacle.x;
-            if (xCo == xCoObstacle && Mathf.Abs(zCo - zCoObstacle) <= 1) {
-                if (!checkForHighOnly) {
-                    return false;
-                }
-                else {
-                    if (obstacle.transform.lossyScale.y == 2) {
-                        return false;
-                    }
-                }
-                return false;
+            spawnCoin(new Vector3(coinX, coinY, coinZ));
+            if (lastLane != Mathf.RoundToInt(coinX)){
+                lastChanged = i;
+                lastLane = Mathf.RoundToInt(coinX);
             }
         }
-        return true;
-    }
-
-    private bool canChangeLane(int pos, int xCo) {
-        for (int i = 0; i < 3; i++) {
-            if (!canSpawnCoin(xCo, pos + i, true)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     private void spawnCoin(Vector3 position) {
@@ -153,5 +134,17 @@ public class CoinManager : MonoBehaviour {
         int index = coins.IndexOf(coin);
         coins.RemoveAt(index);
         Destroy(coin);
+    }
+
+    private bool shouldChange(float coinZ, float nextOpeningZ, int nextOpeningValue, int currentLane, int current, int lastChanged) {
+        return ((nextOpeningZ-coinZ <= 3*spacing) && nextOpeningValue != currentLane && ((current-lastChanged >= 3) || current <=2));
+    }
+
+    private bool canChange(float coinZ, float nextOpeningZ, float lastOpeningZ, int current, int lastChanged) {
+        return ((nextOpeningZ - coinZ > 4*spacing) && (current-lastChanged >= 3) && (coinZ-lastOpeningZ > 3* spacing));
+    }
+
+    private int getRandomLane(int lastLane, int nextOpeningValue) {
+        return Random.Range(Mathf.Max(-1, lastLane - 1, nextOpeningValue -1), Mathf.Min(2, lastLane + 2, nextOpeningValue + 2));
     }
 }
