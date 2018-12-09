@@ -87,7 +87,7 @@ public class TileManager : MonoBehaviour {
 
         if (nextObstacleSpwan - Mathf.RoundToInt(position) == 80) {
             int colorObstacle = UnityEngine.Random.Range(0, 4);
-            if (!(nextObstacleSpwan % 250 < 40))
+            if (!(nextObstacleSpwan % 250 < 35))
             {
                 SpawnObstacles(colorObstacle, nextObstacleSpwan);
                 DeleteObstacles(position);

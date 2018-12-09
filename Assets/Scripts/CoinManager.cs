@@ -49,6 +49,15 @@ public class CoinManager : MonoBehaviour {
 
         int currentZCo = Mathf.RoundToInt(playerTransform.position.z);
 
+        if (nextPositionToHandle%250 >= 220) {
+            int difference = 250 - (nextPositionToHandle % 250);
+            nextPositionToHandle += (40+difference);
+        }
+
+        if (nextPositionToHandle%250 <= 40) {
+            nextPositionToHandle += (40 - (nextPositionToHandle % 250));
+        }
+
         if (currentZCo == nextPositionToHandle){
             randomSpawn = Random.Range(10, 16);
             nextPositionToHandle += randomSpawn*spacing*2;
