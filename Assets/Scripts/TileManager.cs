@@ -26,7 +26,7 @@ public class TileManager : MonoBehaviour {
     private int previousOpening = 0;
 
     private int nextObstacleSpwan = 40;
-    private int obstaclesSpacing = 10;    
+    private int obstaclesSpacing = 11;    
 
     // Use this for initialization
     void Start () {
@@ -53,7 +53,7 @@ public class TileManager : MonoBehaviour {
                 }
 
                 int roundZ = Mathf.RoundToInt(spawnZ);
-                if (!(nextObstacleSpwan % 250 == 0) && !(nextObstacleSpwan % 250 == 10) && !(nextObstacleSpwan % 250 == 20)){
+                if (!(nextObstacleSpwan % 250 <= 40) && !(nextObstacleSpwan % 250 >= 240)){
                     SpawnObstacles(colorObstacle, nextObstacleSpwan);
                 }
                 nextObstacleSpwan += obstaclesSpacing;
@@ -85,9 +85,9 @@ public class TileManager : MonoBehaviour {
             DeleteTile();
         }
 
-        if (nextObstacleSpwan - Mathf.RoundToInt(position) == 80) {
+        if (nextObstacleSpwan - Mathf.RoundToInt(position) <= 120) {
             int colorObstacle = UnityEngine.Random.Range(0, 4);
-            if (!(nextObstacleSpwan % 250 < 35))
+            if (!(nextObstacleSpwan % 250 < 40) && !(nextObstacleSpwan % 250 >= 240))
             {
                 SpawnObstacles(colorObstacle, nextObstacleSpwan);
                 DeleteObstacles(position);
