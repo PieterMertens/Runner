@@ -49,6 +49,8 @@ public class SwipeManager : MonoBehaviour
                         swipeDirection = Swipe.TapMiddle;
                         AnalyticsEvent.Custom("Controls", new Dictionary<string, object> { { "Tap", "Middle" } });
                     }
+                    AnalyticsEvent.Custom("User Control", new Dictionary<string, object> { { PlayerPrefs.GetString("id"), "Tap" } });
+                    AnalyticsEvent.Custom("User Control2", new Dictionary<string, object> { { "Tap", PlayerPrefs.GetString("id") } });
                     return;
                 }
 
@@ -58,18 +60,26 @@ public class SwipeManager : MonoBehaviour
                 if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
                     swipeDirection = Swipe.Up;
                     AnalyticsEvent.Custom("Controls", new Dictionary<string, object> { { "Swipe", "Up" } });
+                    AnalyticsEvent.Custom("User Control", new Dictionary<string, object> { { PlayerPrefs.GetString("id"), "Swipe" } });
+                    AnalyticsEvent.Custom("User Control2", new Dictionary<string, object> { { "Swipe", PlayerPrefs.GetString("id") } });
                     // Swipe down
                 } else if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) {
                     swipeDirection = Swipe.Down;
                     AnalyticsEvent.Custom("Controls", new Dictionary<string, object> { { "Swipe", "Down" } });
+                    AnalyticsEvent.Custom("User Control", new Dictionary<string, object> { { PlayerPrefs.GetString("id"), "Swipe" } });
+                    AnalyticsEvent.Custom("User Control2", new Dictionary<string, object> { { "Swipe", PlayerPrefs.GetString("id") } });
                     // Swipe left
                 } else if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
                     swipeDirection = Swipe.Left;
                     AnalyticsEvent.Custom("Controls", new Dictionary<string, object> { { "Swipe", "Left" } });
+                    AnalyticsEvent.Custom("User Control", new Dictionary<string, object> { { PlayerPrefs.GetString("id"), "Swipe" } });
+                    AnalyticsEvent.Custom("User Control2", new Dictionary<string, object> { { "Swipe", PlayerPrefs.GetString("id") } });
                     // Swipe right
                 } else if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
                     swipeDirection = Swipe.Right;
                     AnalyticsEvent.Custom("Controls", new Dictionary<string, object> { { "Swipe", "Right" } });
+                    AnalyticsEvent.Custom("User Control", new Dictionary<string, object> { { PlayerPrefs.GetString("id"), "Swipe" } });
+                    AnalyticsEvent.Custom("User Control2", new Dictionary<string, object> { { "Swipe", PlayerPrefs.GetString("id") } });
                 }
             }
         } else {

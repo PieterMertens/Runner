@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour {
@@ -60,11 +61,14 @@ public class ScoreManager : MonoBehaviour {
 
     public void updateHighScore() {
         if (PlayerPrefs.HasKey("highscore")) {
-            if (PlayerPrefs.GetInt("highscore") < score) PlayerPrefs.SetInt("highscore", ((int)System.Math.Floor(score)));
+            int high = PlayerPrefs.GetInt("highscore");
+            if (high < score) PlayerPrefs.SetInt("highscore", ((int)System.Math.Floor(score)));
+            AnalyticsEvent.Custom(PlayerPrefs.GetString("id"), new Dictionary<string, object> { {"Score", score }, { "Highscore", high } });
             return;
         }
         PlayerPrefs.SetInt("highscore", (int)System.Math.Floor(score));
-        
+        AnalyticsEvent.Custom(PlayerPrefs.GetString("id"), new Dictionary<string, object> { { "Score", score }, { "Highscore", score } });
+
     }
 
     public void Revive() {

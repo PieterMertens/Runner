@@ -10,7 +10,10 @@ public class MenuManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        if (!PlayerPrefs.HasKey("id"))
+        {
+            PlayerPrefs.SetString("id", System.DateTime.Now.ToString("yyyyMMddHHmmssfff"));
+        }
     }
 
     // Update is called once per frame
