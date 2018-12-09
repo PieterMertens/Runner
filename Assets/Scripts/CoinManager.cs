@@ -49,6 +49,15 @@ public class CoinManager : MonoBehaviour {
 
         int currentZCo = Mathf.RoundToInt(playerTransform.position.z);
 
+        if ((nextPositionToHandle+70)%250 >= 250-(16*spacing)) {
+            int difference = 250 - ((nextPositionToHandle+70) % 250);
+            nextPositionToHandle += (40+difference);
+        }
+
+        if ((nextPositionToHandle+70)%250 <= 40) {
+            nextPositionToHandle += (40 - ((nextPositionToHandle+70) % 250));
+        }
+
         if (currentZCo == nextPositionToHandle){
             randomSpawn = Random.Range(10, 16);
             nextPositionToHandle += randomSpawn*spacing*2;
@@ -82,8 +91,8 @@ public class CoinManager : MonoBehaviour {
                 otherXCo = lastXCo + 1;
             }
             if (i - positionChanged < 3 || !canChangeLane(otherXCo, currentZCo+40+i-spacing)) {
-                if (canSpawnCoin(lastXCo, currentZCo + 40 + i * spacing, false)) {
-                    spawnCoin(new Vector3(lastXCo, 1, currentZCo + 40 + i * spacing));
+                if (canSpawnCoin(lastXCo, currentZCo + 70 + i * spacing, false)) {
+                    spawnCoin(new Vector3(lastXCo, 1.5f, currentZCo + 70 + i * spacing));
                 } else {
                     randomSpawn += 1;
                 }
@@ -91,8 +100,8 @@ public class CoinManager : MonoBehaviour {
 
             else{
                 int xCo = Random.Range(randomLanes - 1, randomLanes + 1);
-                if (canSpawnCoin(xCo, currentZCo + 40 + i * spacing, false)) {
-                    spawnCoin(new Vector3(xCo, 1, currentZCo + 40 + i * spacing));
+                if (canSpawnCoin(xCo, currentZCo + 70 + i * spacing, false)) {
+                    spawnCoin(new Vector3(xCo, 1.5f, currentZCo + 70 + i * spacing));
                 }
                 else {
                     randomSpawn += 1;
