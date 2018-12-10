@@ -137,11 +137,11 @@ public class CoinManager : MonoBehaviour {
     }
 
     private bool shouldChange(float coinZ, float nextOpeningZ, int nextOpeningValue, int currentLane, int current, int lastChanged) {
-        return ((nextOpeningZ-coinZ <= 3*spacing) && nextOpeningValue != currentLane && ((current-lastChanged >= 3) || current <=2));
+        return ((nextOpeningZ-coinZ <= 3*spacing) && nextOpeningValue != currentLane && (current <=2 || (current - lastChanged >= 3)));
     }
 
     private bool canChange(float coinZ, float nextOpeningZ, float lastOpeningZ, int current, int lastChanged) {
-        return ((nextOpeningZ - coinZ > 4*spacing) && (current-lastChanged >= 3) && (coinZ-lastOpeningZ > 3* spacing));
+        return ((nextOpeningZ - coinZ >= 4*spacing) && (current-lastChanged >= 3) && (coinZ-lastOpeningZ > 3* spacing));
     }
 
     private int getRandomLane(int lastLane, int nextOpeningValue) {

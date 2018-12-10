@@ -269,17 +269,6 @@ public class TileManager : MonoBehaviour {
             newColor = UnityEngine.Random.Range(0, 4);
         }
 
-        Debug.Log("New getNewColor");
-        Debug.Log(z);
-        Debug.Log("colorFront");
-        foreach (int color in tileColorFront) { Debug.Log(color); }
-        Debug.Log("colorBack");
-        foreach (int color in tileColorBack) { Debug.Log(color); }
-        Debug.Log("colorsTogether");
-        foreach (int color in oldColors) { Debug.Log(color); }
-        Debug.Log("new color");
-        Debug.Log(newColor);
-
         return newColor;
     }
 }
