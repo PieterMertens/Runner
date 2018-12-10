@@ -33,7 +33,7 @@ public class CoinManager : MonoBehaviour {
         tileManager = GameObject.Find("TileManager");
         manager = tileManager.GetComponent<TileManager>();
 
-        nextPositionToHandle = 0;
+        nextPositionToHandle = 10;
 
         obstacles = manager.activeObstacles;
     }
@@ -81,7 +81,7 @@ public class CoinManager : MonoBehaviour {
         //// REIMPLEMENTATION
 
         float lastOpeningZ = manager.getLastOpening(currentZCo + 70);
-        float nextOpeningZ = manager.getNextOpening(000022 +70);
+        float nextOpeningZ = manager.getNextOpening(currentZCo + 70);
         int nextOpeningValue = manager.getOpeningAt(nextOpeningZ);
 
         int lastLane = manager.getOpeningAt(lastOpeningZ);
@@ -105,7 +105,7 @@ public class CoinManager : MonoBehaviour {
             }
 
             //// X-value
-            if (shouldChange(coinZ,nextOpeningZ,nextOpeningValue, lastLane,i , lastChanged)) {
+            if (shouldChange(coinZ, nextOpeningZ, nextOpeningValue, lastLane, i, lastChanged)) {
                 coinX = nextOpeningValue;
             } else {
                 if (canChange(coinZ, nextOpeningZ, lastOpeningZ, i, lastChanged)) {
