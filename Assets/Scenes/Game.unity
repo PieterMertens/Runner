@@ -584,6 +584,8 @@ MonoBehaviour:
   - {fileID: 1620283478126264, guid: d475079301b36c24f8be395f49672ddd, type: 2}
   tileLength: 10
   amountOfTiles: 37
+  activeTiles: []
+  activeObstacles: []
 --- !u!1 &718162038 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100138, guid: 95ad7dc5646170a4984f12beecf2c405,
@@ -6193,7 +6195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7634c85272c4fb3428ff18494c8097d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinPrefab: {fileID: 1785015161434346, guid: f8fb28c2e634c2146b30d4f7fa520bec, type: 2}
+  coinPrefab: {fileID: 1367998477498648, guid: 758e7c66e87991c4eab8519fb1922c6d, type: 2}
 --- !u!4 &2013188586
 Transform:
   m_ObjectHideFlags: 0
