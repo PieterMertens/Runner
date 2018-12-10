@@ -59,17 +59,9 @@ public class TileManager : MonoBehaviour {
                     colorObstacle += 1;
                 }
 
-                int roundZ = Mathf.RoundToInt(spawnZ);
-                if (!(nextObstacleSpwan % 250 <= 40) && !(nextObstacleSpwan % 250 >= 240)){
-                    SpawnObstacles(nextObstacleSpwan);
-                }
-                nextObstacleSpwan += obstaclesSpacing;
-
                 SpawnTile(colorTile);
             }
         }
-       
-        
 	}
 	
 	// Update is called once per frame
@@ -90,7 +82,6 @@ public class TileManager : MonoBehaviour {
         }
 
         if (nextObstacleSpwan - Mathf.RoundToInt(position) <= 120) {
-            int colorObstacle = UnityEngine.Random.Range(0, 4);
             if (!(nextObstacleSpwan % 250 < 40) && !(nextObstacleSpwan % 250 >= 240))
             {
                 SpawnObstacles(nextObstacleSpwan);
@@ -120,22 +111,18 @@ public class TileManager : MonoBehaviour {
 
         float posZ = zCo + UnityEngine.Random.Range(-1, 2);
 
-        int colorFront = getNewColor(posZ);
-        int colorBack = colorFront;
-        if (getColor(posZ + 1) != getColor(posZ)) {
-            colorBack = getNewColor(posZ + 1);
-        }
+        int newColor = getNewColor(posZ);
 
         if (!jump) {
             openings.Add(posZ,opening);
             noJumps.Add(posZ);
         }
         if ((!spreaded || front) && jump) {
-            SpawnObstacle(colorFront, new Vector3(opening, 0.75f, posZ), false);
+            SpawnObstacle(newColor, new Vector3(opening, 0.75f, posZ), false);
             openings.Add(posZ, opening);
         }
         if (spreaded && !front && jump) {
-            SpawnObstacle(colorBack, new Vector3(opening, 0.75f, posZ+1), false);
+            SpawnObstacle(newColor, new Vector3(opening, 0.75f, posZ+1), false);
             openings.Add(posZ + 1, opening);
         }
         if (!spreaded || !front) {
@@ -146,7 +133,7 @@ public class TileManager : MonoBehaviour {
                     else {
                         int y = otherObstacles[0];
                         if (y != 0) {
-                            SpawnObstacle(colorFront, new Vector3(j, 0.75f +(y-1)*0.75f, posZ), y == 2);
+                            SpawnObstacle(newColor, new Vector3(j, 0.75f +(y-1)*0.75f, posZ), y == 2);
                         }
                         otherObstacles.RemoveAt(0);
                     }
@@ -161,7 +148,7 @@ public class TileManager : MonoBehaviour {
                     else {
                         int y = otherObstacles[0];
                         if (y != 0) {
-                            SpawnObstacle(colorBack, new Vector3(j, 0.75f+(y-1)*0.75f, posZ+1), y == 2);
+                            SpawnObstacle(newColor, new Vector3(j, 0.75f+(y-1)*0.75f, posZ+1), y == 2);
                         }
                         otherObstacles.RemoveAt(0);
                     }
@@ -258,19 +245,41 @@ public class TileManager : MonoBehaviour {
         return noJumps.Contains(z);
     }
 
-    private int getColor(float z) {
+    private List<int> getColor(float z) {
+        List<int> colors = new List<int>();
         foreach (KeyValuePair<float, int> tileColor in tilesColor) {
             if (Mathf.Abs(tileColor.Key - z) <= 5) {
-                return tileColor.Value;
+                colors.Add(tileColor.Value);
             }
         }
-        return -1;
+        return colors;
     }
 
     private int getNewColor(float z) {
-        int color = UnityEngine.Random.Range(0,3);
-        int tileColor = getColor(z);
-        if (color >= tileColor) { color += 1; }
-        return color;
+        List<int> tileColorFront = getColor(z);
+        List<int> tileColorBack = getColor(z + 1);
+
+        List<int> oldColors = tileColorFront;
+        foreach (int oldColor in tileColorBack) {
+            if (!oldColors.Contains(oldColor)) { oldColors.Add(oldColor); }
+        }
+
+        int newColor = UnityEngine.Random.Range(0, 4);
+        while (oldColors.Contains(newColor)) {
+            newColor = UnityEngine.Random.Range(0, 4);
+        }
+
+        Debug.Log("New getNewColor");
+        Debug.Log(z);
+        Debug.Log("colorFront");
+        foreach (int color in tileColorFront) { Debug.Log(color); }
+        Debug.Log("colorBack");
+        foreach (int color in tileColorBack) { Debug.Log(color); }
+        Debug.Log("colorsTogether");
+        foreach (int color in oldColors) { Debug.Log(color); }
+        Debug.Log("new color");
+        Debug.Log(newColor);
+
+        return newColor;
     }
 }
