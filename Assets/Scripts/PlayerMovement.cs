@@ -155,10 +155,17 @@ public class PlayerMovement : MonoBehaviour
         if (hit.gameObject.tag == "Obstacle" && hit.point.z > transform.position.z + controller.radius) {
             Die("Hit");
         }
-        if (hit.gameObject.tag == "Coin") {
-            GameObject coin = hit.gameObject;
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        Debug.Log("trigger");
+        if (other.gameObject.tag == "Coin")
+        {
+            Debug.Log("cointrigger");
+            GameObject coin = other.gameObject;
             float pos = coin.transform.position.z;
-            if (pos != lastCoinHit) {
+            if (pos != lastCoinHit)
+            {
                 coinScript.deleteCoin(coin);
                 scoreManager.collectCoin();
                 lastCoinHit = pos;
@@ -176,7 +183,4 @@ public class PlayerMovement : MonoBehaviour
         AnalyticsEvent.Custom("Death", new Dictionary<string, object> { { "Cause", reason } });
 
     }
-
-
-
 }
