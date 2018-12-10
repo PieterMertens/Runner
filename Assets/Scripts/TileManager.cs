@@ -100,6 +100,12 @@ public class TileManager : MonoBehaviour {
         activeTiles.Add(go);
     }
 
+    private void DeleteTile() {
+        tilesColor.Remove(activeTiles[0].transform.position.z);
+        Destroy(activeTiles[0]);
+        activeTiles.RemoveAt(0);
+    }
+
     private void SpawnObstacles(int zCo) {
         int opening = getNewOpening(previousOpening);
 
@@ -127,9 +133,7 @@ public class TileManager : MonoBehaviour {
         }
         if (!spreaded || !front) {
                 for (int j = -1; j < 2; j++) {
-                    if (j == opening) {
-                        continue;
-                    }
+                    if (j == opening) { continue;}
                     else {
                         int y = otherObstacles[0];
                         if (y != 0) {
@@ -142,9 +146,7 @@ public class TileManager : MonoBehaviour {
 
         if (spreaded && front) {
                 for (int j = -1; j < 2; j++) {
-                    if (j == opening) {
-                        continue;
-                    }
+                    if (j == opening) { continue; }
                     else {
                         int y = otherObstacles[0];
                         if (y != 0) {
@@ -156,6 +158,47 @@ public class TileManager : MonoBehaviour {
             }
 
         previousOpening = opening;
+    }
+
+    private void SpawnObstacle(int colorObstacle, Vector3 position, bool high) {
+        GameObject obstacle;
+        if (high)
+        {
+            obstacle = Instantiate(obstaclesHigh[colorObstacle]) as GameObject;
+        }
+        else
+        {
+            obstacle = Instantiate(obstaclesLow[colorObstacle]) as GameObject;
+        }
+        obstacle.transform.SetParent(transform);
+        obstacle.transform.position = position;
+        activeObstacles.Add(obstacle);
+    }
+
+    private void DeleteObstacles(float position) {
+        float limit = position - safeZone;
+        bool limitReached = false;
+        while (limitReached == false)
+        {
+            GameObject obstacle = activeObstacles[0];
+            if (obstacle.transform.position.z < limit)
+            {
+                if (openings.ContainsKey(obstacle.transform.position.z))
+                {
+                    openings.Remove(obstacle.transform.position.z);
+                }
+                if (noJumps.Contains(obstacle.transform.position.z))
+                {
+                    noJumps.Remove(obstacle.transform.position.z);
+                }
+                activeObstacles.Remove(obstacle);
+                Destroy(obstacle);
+            }
+            else
+            {
+                limitReached = true;
+            }
+        }
     }
 
     private int getNewOpening(int previousOpening) {
@@ -181,37 +224,35 @@ public class TileManager : MonoBehaviour {
         return result;
     }
 
-    private void SpawnObstacle(int colorObstacle, Vector3 position, bool high) {
-        GameObject obstacle;
-        if (high) {
-            obstacle = Instantiate(obstaclesHigh[colorObstacle]) as GameObject;
-        }
-        else {
-            obstacle = Instantiate(obstaclesLow[colorObstacle]) as GameObject;
-        }
-        obstacle.transform.SetParent(transform);
-        obstacle.transform.position = position;
-        activeObstacles.Add(obstacle);
-    }
-
-    private void DeleteTile() {
-        Destroy(activeTiles[0]);
-        activeTiles.RemoveAt(0);       
-    }
-
-    private void DeleteObstacles(float position) {
-        float limit = position - safeZone;
-        bool limitReached = false;
-        while (limitReached == false) {
-            GameObject obstacle = activeObstacles[0];
-            if (obstacle.transform.position.z < limit) {
-                activeObstacles.Remove(obstacle);
-                Destroy(obstacle);
-            }
-            else {
-                limitReached = true;
+    private List<int> getColor(float z) {
+        List<int> colors = new List<int>();
+        foreach (KeyValuePair<float, int> tileColor in tilesColor)
+        {
+            if (Mathf.Abs(tileColor.Key - z) <= 5)
+            {
+                colors.Add(tileColor.Value);
             }
         }
+        return colors;
+    }
+
+    private int getNewColor(float z) {
+        List<int> tileColorFront = getColor(z);
+        List<int> tileColorBack = getColor(z + 1);
+
+        List<int> oldColors = tileColorFront;
+        foreach (int oldColor in tileColorBack)
+        {
+            if (!oldColors.Contains(oldColor)) { oldColors.Add(oldColor); }
+        }
+
+        int newColor = UnityEngine.Random.Range(0, 4);
+        while (oldColors.Contains(newColor))
+        {
+            newColor = UnityEngine.Random.Range(0, 4);
+        }
+
+        return newColor;
     }
 
     public void updateObstaclesSpacing() {
@@ -243,32 +284,5 @@ public class TileManager : MonoBehaviour {
 
     public bool noJump(float z) {
         return noJumps.Contains(z);
-    }
-
-    private List<int> getColor(float z) {
-        List<int> colors = new List<int>();
-        foreach (KeyValuePair<float, int> tileColor in tilesColor) {
-            if (Mathf.Abs(tileColor.Key - z) <= 5) {
-                colors.Add(tileColor.Value);
-            }
-        }
-        return colors;
-    }
-
-    private int getNewColor(float z) {
-        List<int> tileColorFront = getColor(z);
-        List<int> tileColorBack = getColor(z + 1);
-
-        List<int> oldColors = tileColorFront;
-        foreach (int oldColor in tileColorBack) {
-            if (!oldColors.Contains(oldColor)) { oldColors.Add(oldColor); }
-        }
-
-        int newColor = UnityEngine.Random.Range(0, 4);
-        while (oldColors.Contains(newColor)) {
-            newColor = UnityEngine.Random.Range(0, 4);
-        }
-
-        return newColor;
     }
 }
