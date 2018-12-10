@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SettingsMenu.unity
     guid: 7f1e4c521baab7744bfc3e14dd2a123f
+  - enabled: 1
+    path: Assets/Scenes/Challenges.unity
+    guid: bce8ee3148c149341b52b03bd9c96a53
   m_configObjects: {}

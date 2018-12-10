@@ -55,8 +55,12 @@ public class ScoreManager : MonoBehaviour {
 
     public void Die() {
         isDead = true;
-        deathMenu.showDeathMenu(score);
         updateHighScore();
+        updateCoinHighscore();
+        updateTotalCoins();
+        updateTotalMeterWalked();
+        deathMenu.showDeathMenu(score);
+        coins = 0;
     }
 
     public void updateHighScore() {
@@ -69,6 +73,40 @@ public class ScoreManager : MonoBehaviour {
         PlayerPrefs.SetInt("highscore", (int)System.Math.Floor(score));
         AnalyticsEvent.Custom(PlayerPrefs.GetString("id"), new Dictionary<string, object> { { "Score", score }, { "Highscore", score } });
 
+    }
+
+    public void updateCoinHighscore() {
+        if (PlayerPrefs.HasKey("coins_colleted_in_one_game"))
+        {
+            int high = PlayerPrefs.GetInt("coins_colleted_in_one_game");
+            if (high < score) PlayerPrefs.SetInt("coins_colleted_in_one_game", ((int)System.Math.Floor(score)));
+            return;
+        }
+        PlayerPrefs.SetInt("coins_colleted_in_one_game", (int)System.Math.Floor(score));
+
+    }
+
+    public void updateTotalCoins() {
+        if (PlayerPrefs.HasKey("coins_collected_total"))
+        {
+            int coins_total = PlayerPrefs.GetInt("coins_collected_total");
+            PlayerPrefs.SetInt("coins_collected_total", (coins + coins_total));
+        }
+        else {
+            PlayerPrefs.SetInt("coins_collected_total", (coins));
+        }
+    }
+
+    public void updateTotalMeterWalked() {
+        if (PlayerPrefs.HasKey("total_meter_walked"))
+        {
+            int total_meter_walked = PlayerPrefs.GetInt("total_meter_walked");
+            PlayerPrefs.SetInt("total_meter_walked", ((int) score + total_meter_walked));
+        }
+        else
+        {
+            PlayerPrefs.SetInt("total_meter_walked", (coins));
+        }
     }
 
     public void Revive() {

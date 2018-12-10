@@ -50,4 +50,8 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene("Highscores");
         AnalyticsEvent.ScreenVisit("Highscores");
     }
+
+    public void loadChallengesMenu() {
+        SceneManager.LoadScene("Challenges");
+    }
 }
