@@ -30,7 +30,7 @@ public class GPGSSignOut : MonoBehaviour {
     public void SignInCallback(bool success)
     {
         if (success) {
-            Debug.Log("################## INFIRUNNER Signed in!");
+            //Debug.Log("################## INFIRUNNER Signed in!");
 
             // Change sign-in button text
             signInButtonText.text = Social.localUser.userName+ " Sign out";
@@ -38,7 +38,7 @@ public class GPGSSignOut : MonoBehaviour {
             // Show the user's name
             //authStatus.text = "Signed in as: " + Social.localUser.userName;
         } else {
-            Debug.Log("################## INFIRUNNER Sign-in failed...");
+            //Debug.Log("################## INFIRUNNER Sign-in failed...");
 
             // Show failure message
             signInButtonText.text = "Sign in on Google Play Services";

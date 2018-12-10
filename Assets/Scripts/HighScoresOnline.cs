@@ -31,7 +31,7 @@ public class HighScoresOnline : MonoBehaviour {
         //This connects to a server side php script that will add the name and score to a MySQL DB.
         // Supply it with a string representing the players name and the players score.
         string code = GetRandomString();
-        Debug.Log("random string=" + code);
+       // Debug.Log("random string=" + code);
 
         //string hash = MD5Test.Md5Sum(name + code);
 
@@ -46,7 +46,7 @@ public class HighScoresOnline : MonoBehaviour {
         } else {
             PlayerPrefs.SetString("c", code);
             string response = hs_post.text; // this is a GUIText that will display the scores in game.
-            Debug.Log(response);
+            //Debug.Log(response);
         }
     }
 
@@ -82,14 +82,14 @@ public class HighScoresOnline : MonoBehaviour {
 
             if (hs_get.error != null) {
             if (hs_get.error == "Unable to complete SSL connection") {
-                Debug.Log("trying insec connection");
+                //Debug.Log("trying insec connection");
                 StartCoroutine(GetScores(highscoreURL));
             }
             print("There was an error getting the high score: " + hs_get.error);
             HighscoresText.text = "Something went wrong! :(";
             } else {
-            Debug.Log("--- header="+hs_get.responseHeaders);
-            Debug.Log("--- text="+hs_get.text);
+            //Debug.Log("--- header="+hs_get.responseHeaders);
+            //Debug.Log("--- text="+hs_get.text);
             HighscoresText.text = hs_get.text; // this is a GUIText that will display the scores in game.
             }
         }
