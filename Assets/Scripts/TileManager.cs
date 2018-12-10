@@ -26,13 +26,20 @@ public class TileManager : MonoBehaviour {
     private int previousOpening = 0;
 
     private int nextObstacleSpwan = 40;
-    private int obstaclesSpacing = 10;    
+    private int obstaclesSpacing = 11;
+
+    private Dictionary<float, int> openings;
+    private Dictionary<float, int> tilesColor;
+    private List<float> noJumps;
 
     // Use this for initialization
     void Start () {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         activeTiles = new List<GameObject>();
         activeObstacles = new List<GameObject>();
+        openings = new Dictionary<float, int>();
+        noJumps = new List<float>();
+        tilesColor = new Dictionary<float, int>();
 
         //TODO begin speciaal maken of duidelijk
         for (int i = 0; i < amountOfTiles; i++)
@@ -53,8 +60,8 @@ public class TileManager : MonoBehaviour {
                 }
 
                 int roundZ = Mathf.RoundToInt(spawnZ);
-                if (!(nextObstacleSpwan % 250 == 0) && !(nextObstacleSpwan % 250 == 10) && !(nextObstacleSpwan % 250 == 20)){
-                    SpawnObstacles(colorObstacle, nextObstacleSpwan);
+                if (!(nextObstacleSpwan % 250 <= 40) && !(nextObstacleSpwan % 250 >= 240)){
+                    SpawnObstacles(nextObstacleSpwan);
                 }
                 nextObstacleSpwan += obstaclesSpacing;
 
@@ -72,24 +79,21 @@ public class TileManager : MonoBehaviour {
         if (position - safeZone > (spawnZ - amountOfTiles*tileLength)) {
 
             int colorTile = UnityEngine.Random.Range(0, 4);
-            //int colorObstacle = UnityEngine.Random.Range(0, 3);
+
             while (colorTile == lastPrefabIndex) {
                 colorTile = UnityEngine.Random.Range(0, 4);
             }
             lastPrefabIndex = colorTile;
-            //if (colorObstacle >= colorTile) {
-            //    colorObstacle += 1;
-            //}
 
             SpawnTile(colorTile);
             DeleteTile();
         }
 
-        if (nextObstacleSpwan - Mathf.RoundToInt(position) == 80) {
+        if (nextObstacleSpwan - Mathf.RoundToInt(position) <= 120) {
             int colorObstacle = UnityEngine.Random.Range(0, 4);
-            if (!(nextObstacleSpwan % 250 < 40))
+            if (!(nextObstacleSpwan % 250 < 40) && !(nextObstacleSpwan % 250 >= 240))
             {
-                SpawnObstacles(colorObstacle, nextObstacleSpwan);
+                SpawnObstacles(nextObstacleSpwan);
                 DeleteObstacles(position);
             }
             nextObstacleSpwan += obstaclesSpacing;
@@ -100,13 +104,12 @@ public class TileManager : MonoBehaviour {
         GameObject go = Instantiate(tilePrefabs[colorTile]) as GameObject;
         go.transform.SetParent(transform);
         go.transform.position = Vector3.forward * spawnZ;
+        tilesColor.Add(spawnZ, colorTile);
         spawnZ += tileLength;
         activeTiles.Add(go);
-
-
     }
 
-    private void SpawnObstacles(int colorObstacle, int zCo) {
+    private void SpawnObstacles(int zCo) {
         int opening = getNewOpening(previousOpening);
 
         bool spreaded = (UnityEngine.Random.Range(0, 2) == 0);
@@ -117,12 +120,24 @@ public class TileManager : MonoBehaviour {
 
         float posZ = zCo + UnityEngine.Random.Range(-1, 2);
 
-        if (!spreaded || front && jump) {
-                SpawnObstacle(colorObstacle, new Vector3(opening, 0.75f, posZ), false);
-            }
+        int colorFront = getNewColor(posZ);
+        int colorBack = colorFront;
+        if (getColor(posZ + 1) != getColor(posZ)) {
+            colorBack = getNewColor(posZ + 1);
+        }
+
+        if (!jump) {
+            openings.Add(posZ,opening);
+            noJumps.Add(posZ);
+        }
+        if ((!spreaded || front) && jump) {
+            SpawnObstacle(colorFront, new Vector3(opening, 0.75f, posZ), false);
+            openings.Add(posZ, opening);
+        }
         if (spreaded && !front && jump) {
-                SpawnObstacle(colorObstacle, new Vector3(opening, 0.75f, posZ+1), false);
-            }
+            SpawnObstacle(colorBack, new Vector3(opening, 0.75f, posZ+1), false);
+            openings.Add(posZ + 1, opening);
+        }
         if (!spreaded || !front) {
                 for (int j = -1; j < 2; j++) {
                     if (j == opening) {
@@ -131,7 +146,7 @@ public class TileManager : MonoBehaviour {
                     else {
                         int y = otherObstacles[0];
                         if (y != 0) {
-                            SpawnObstacle(colorObstacle, new Vector3(j, 0.75f +(y-1)*0.75f, posZ), y == 2);
+                            SpawnObstacle(colorFront, new Vector3(j, 0.75f +(y-1)*0.75f, posZ), y == 2);
                         }
                         otherObstacles.RemoveAt(0);
                     }
@@ -146,7 +161,7 @@ public class TileManager : MonoBehaviour {
                     else {
                         int y = otherObstacles[0];
                         if (y != 0) {
-                            SpawnObstacle(colorObstacle, new Vector3(j, 0.75f+(y-1)*0.75f, posZ+1), y == 2);
+                            SpawnObstacle(colorBack, new Vector3(j, 0.75f+(y-1)*0.75f, posZ+1), y == 2);
                         }
                         otherObstacles.RemoveAt(0);
                     }
@@ -214,5 +229,48 @@ public class TileManager : MonoBehaviour {
 
     public void updateObstaclesSpacing() {
         obstaclesSpacing += 1;
+    }
+
+    public float getNextOpening(float z) {
+        foreach (KeyValuePair<float, int> opening in openings) {
+            if (opening.Key - z >=0 && opening.Key - z <= obstaclesSpacing) {
+                return opening.Key;
+            }
+        }
+        return -1;
+    }
+
+    public float getLastOpening(float z) {
+        foreach (KeyValuePair<float, int> opening in openings) {
+            if (z - opening.Key >= 0 && z - opening.Key <= obstaclesSpacing) {
+                return opening.Key;
+            }
+        }
+        return -1;
+    }
+
+    public int getOpeningAt(float z) {
+        if (z == -1) { return 0; ; }
+        else { return openings[z]; }
+    }
+
+    public bool noJump(float z) {
+        return noJumps.Contains(z);
+    }
+
+    private int getColor(float z) {
+        foreach (KeyValuePair<float, int> tileColor in tilesColor) {
+            if (Mathf.Abs(tileColor.Key - z) <= 5) {
+                return tileColor.Value;
+            }
+        }
+        return -1;
+    }
+
+    private int getNewColor(float z) {
+        int color = UnityEngine.Random.Range(0,3);
+        int tileColor = getColor(z);
+        if (color >= tileColor) { color += 1; }
+        return color;
     }
 }
