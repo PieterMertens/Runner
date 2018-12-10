@@ -158,10 +158,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        Debug.Log("trigger");
         if (other.gameObject.tag == "Coin")
         {
-            Debug.Log("cointrigger");
             GameObject coin = other.gameObject;
             float pos = coin.transform.position.z;
             if (pos != lastCoinHit)

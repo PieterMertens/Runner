@@ -24,7 +24,6 @@ public class CoinManager : MonoBehaviour {
 
     GameObject tileManager;
     TileManager manager;
-    List<GameObject> obstacles;
 
     // Use this for initialization
     void Start() {
@@ -34,13 +33,10 @@ public class CoinManager : MonoBehaviour {
         manager = tileManager.GetComponent<TileManager>();
 
         nextPositionToHandle = 10;
-
-        obstacles = manager.activeObstacles;
     }
 
     // Update is called once per frame
     void Update() {
-        obstacles = manager.activeObstacles;
         foreach (GameObject coin in coins.ToArray()) {
             if (checkIfPassed(coin)) {
                 deleteCoin(coin);

@@ -9,7 +9,6 @@ public class ScoreManager : MonoBehaviour {
     int coins = 0;
 
     public Text scoreText;
-    
 
     private PlayerMovement playerMovement;
     public DeathMenu deathMenu;
@@ -37,7 +36,7 @@ public class ScoreManager : MonoBehaviour {
         }
         
         //TODO score ook rekening houden met coins,...
-        score = transform.position.z;
+        score = transform.position.z + coins;
         scoreText.text = ((int)score).ToString();
 
         if (score > scoreToNextLevel) { LevelUp(); }
